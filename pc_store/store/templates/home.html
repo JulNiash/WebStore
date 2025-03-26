@@ -1,0 +1,20 @@
+{% extends 'base.html' %}
+{% block content %}
+    <ul style="list-style: none; padding: 0; display: flex; flex-direction: column; align-items: center; gap: 10px;">
+        <li style="margin: 5px 0;"><a href="{% url 'motherboards_list' %}" style="text-decoration: none; color: #007bff; font-size: 18px;">Motherboards</a></li>
+        <li style="margin: 5px 0;"><a href="{% url 'graphic_cards_list' %}" style="text-decoration: none; color: #007bff; font-size: 18px;">Graphic Cards</a></li>
+        <li style="margin: 5px 0;"><a href="{% url 'processors_list' %}" style="text-decoration: none; color: #007bff; font-size: 18px;">Processors</a></li>
+        <li style="margin: 5px 0;"><a href="{% url 'rams_list' %}" style="text-decoration: none; color: #007bff; font-size: 18px;">RAM</a></li>
+        <li style="margin: 5px 0;"><a href="{% url 'power_supplys_list' %}" style="text-decoration: none; color: #007bff; font-size: 18px;">Power Supplies</a></li>
+        <li style="margin: 5px 0;"><a href="{% url 'storages_list' %}" style="text-decoration: none; color: #007bff; font-size: 18px;">Storages</a></li>
+        <li style="margin: 5px 0;"><a href="{% url 'cases_list' %}" style="text-decoration: none; color: #007bff; font-size: 18px;">Cases</a></li>
+        <li style="margin: 5px 0;"><a href="{% url 'stores_list' %}" style="text-decoration: none; color: #ff4500; font-size: 20px; font-weight: bold;">Stores</a></li>
+        <li style="margin: 5px 0;"><a href="{% url 'brands_list' %}" style="text-decoration: none; color: #ff4500; font-size: 20px; font-weight: bold;">Brands</a></li>
+    </ul>
+
+    {% if user.is_superuser %}
+        <div style="text-align: center; margin-top: 20px;">
+            <a href="{% url 'admin:index' %}" style="padding: 10px 15px; background-color: #000; color: white; text-decoration: none; border-radius: 5px;">Войти в админку</a>
+        </div>
+    {% endif %}
+{% endblock %}

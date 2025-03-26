@@ -1,0 +1,15 @@
+<h1>Корзина</h1>
+{% if basket.items.all %}
+    <ul>
+        {% for item in basket.items.all %}
+            <li>
+                {{ item.offer.get_product }} - {{ item.quantity }} шт.
+                ({{ item.total_price }} руб.)
+                <a href="{% url 'remove_from_basket' item.id %}" style="color: red;">Удалить</a>
+            </li>
+        {% endfor %}
+    </ul>
+    <h3>Итого: {{ basket.total_price }} руб.</h3>
+{% else %}
+    <p>Корзина пуста.</p>
+{% endif %}

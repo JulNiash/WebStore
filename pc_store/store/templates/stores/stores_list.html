@@ -1,0 +1,29 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <h1 style="text-align: center; margin-bottom: 20px;">Список магазинов</h1>
+
+    <ul style="list-style: none; padding: 0; max-width: 600px; margin: 0 auto;">
+        {% for store in stores %}
+            <li style="background: #f9f9f9; border: 1px solid #ddd; border-radius: 8px; padding: 15px; margin-bottom: 10px; display: flex; justify-content: space-between; align-items: center;">
+                <a href="{% url 'store_detail' store.id %}" style="text-decoration: none; font-weight: bold; color: #007bff;">{{ store.name }}</a>
+
+{% if user.is_authenticated and user == store.owner or user.is_superuser %}
+
+                    <div>
+                        <a href="{% url 'store_update' store.id %}" style="padding: 5px 10px; background-color: #ffc107; color: black; text-decoration: none; border-radius: 5px; margin-right: 5px;">Редактировать</a>
+                        <a href="{% url 'store_delete' store.id %}" style="padding: 5px 10px; background-color: #dc3545; color: white; text-decoration: none; border-radius: 5px;">Удалить</a>
+                    </div>
+                {% endif %}
+            </li>
+        {% empty %}
+            <p style="text-align: center;">Нет доступных магазинов.</p>
+        {% endfor %}
+    </ul>
+
+    {% if user.is_authenticated %}
+        <div style="text-align: center; margin-top: 20px;">
+            <a href="{% url 'store_create' %}" style="padding: 10px 15px; background-color: #28a745; color: white; text-decoration: none; border-radius: 5px;">Создать магазин</a>
+        </div>
+    {% endif %}
+{% endblock %}

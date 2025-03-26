@@ -1,0 +1,21 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <div style="max-width: 500px; margin: auto; padding: 20px; border: 1px solid #ccc; border-radius: 10px; text-align: center; background-color: #f8f9fa;">
+        <h1 style="color: #dc3545;">Удалить видеокарту</h1>
+        <p style="font-size: 18px;">Вы уверены, что хотите удалить видеокарту <strong>"{{ graphic_card.title }}"</strong>?</p>
+
+        <form method="post">
+            {% csrf_token %}
+            <button type="submit" style="padding: 10px 20px; background-color: #dc3545; color: white; border: none; border-radius: 5px; cursor: pointer; font-size: 16px;">
+                Удалить
+            </button>
+        </form>
+
+        <br>
+
+        <a href="{% url 'graphic_cards_list' %}" style="display: inline-block; padding: 10px 20px; background-color: #6c757d; color: white; text-decoration: none; border-radius: 5px; font-size: 16px;">
+            Отмена
+        </a>
+    </div>
+{% endblock %}

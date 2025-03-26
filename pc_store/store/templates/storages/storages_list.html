@@ -1,0 +1,37 @@
+{% extends 'base.html' %}
+{% block content %}
+    <h1>Список жестких дисков</h1>
+    <div style="display: flex; flex-wrap: wrap; gap: 20px;">
+       {% for storage in storages %}
+            <div style="border: 1px solid #ddd; padding: 15px; border-radius: 8px; width: 300px;">
+                <h2>
+                    <a href="{% url 'storage_detail' storage.id %}" style="text-decoration: none; color: #007bff;">{{ storage.title }}</a>
+                </h2>
+                <p>{{ storage.description }}</p>
+
+                <h3>Предложения:</h3>
+                    {% if storage.storage_offers %}
+                        <ul>
+                            {% for offer in storage.storage_offers.all %}
+                                <li>Цена: {{ offer.price }} руб. | Магазин: {{ offer.store.name }}</li>
+                                {% if user.is_authenticated and offer.store and user == offer.store.owner %}
+                                    <a href="{% url 'edit_offer' offer.id %}">Редактировать</a>
+                                    <a href="{% url 'delete_offer' offer.id %}" style="color: red;">Удалить</a>
+                                {% endif %}
+                            {% endfor %}
+                        </ul>
+                    {% else %}
+                        <p>Нет предложений</p>
+                    {% endif %}
+
+                    {% if user.is_authenticated and user.seller_profile or user.is_superuser %}
+                    <a href="{% url 'create_offer' 'storage' storage.id %}" style="display: block; margin-top: 10px; padding: 5px 10px; background-color: #007bff; color: white; text-decoration: none; border-radius: 5px; text-align: center;">Добавить предложение</a>
+                {% endif %}
+            </div>
+        {% endfor %}
+    </div>
+
+    {% if user.is_staff %}
+        <a href="{% url 'create_storage' %}" style="display: inline-block; margin-top: 20px; padding: 10px 15px; background-color: #28a745; color: white; text-decoration: none; border-radius: 5px;">Создать новый жесткий диск</a>
+    {% endif %}
+{% endblock %}

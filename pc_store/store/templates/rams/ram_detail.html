@@ -1,0 +1,25 @@
+{% extends 'base.html' %}
+{% block content %}
+
+    <div style="max-width: 600px; margin: 20px auto; padding: 20px; border: 1px solid #ddd; border-radius: 8px; background-color: #f9f9f9;">
+        <h1 style="text-align: center; color: #333;">RAM DETAIL</h1>
+        <p><strong>Name:</strong> {{ ram.title }}</p>
+        <p><strong>Brand:</strong> {{ ram.brand }}</p>
+        <p><strong>Capacity:</strong> {{ ram.capacity }}</p>
+        <p><strong>Memory Type:</strong> {{ ram.memory_type }}</p>
+        <p><strong>MHz:</strong> {{ ram.mhz }}</p>
+        <p><strong>Description:</strong> {{ ram.description }}</p>
+
+        {% if user.is_staff %}
+            <div style="margin-top: 15px;">
+                <a href="{% url 'update_ram' ram.id %}" style="display: inline-block; padding: 8px 12px; background-color: #007bff; color: white; text-decoration: none; border-radius: 5px; margin-right: 10px;">Update</a>
+                <a href="{% url 'delete_ram' ram.id %}" style="display: inline-block; padding: 8px 12px; background-color: #dc3545; color: white; text-decoration: none; border-radius: 5px;">Delete</a>
+            </div>
+        {% endif %}
+
+        <div style="margin-top: 20px; text-align: center;">
+            <a href="{% url 'rams_list' %}" style="display: inline-block; padding: 10px 15px; background-color: #28a745; color: white; text-decoration: none; border-radius: 5px;">Back to RAMs</a>
+        </div>
+    </div>
+
+{% endblock %}

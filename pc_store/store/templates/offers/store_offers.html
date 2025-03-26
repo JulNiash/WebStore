@@ -1,0 +1,15 @@
+<!-- templates/offers/store_offers.html -->
+{% extends "base.html" %}
+
+{% block content %}
+    <h1>Предложения в магазине {{ store.name }}</h1>
+    <ul>
+        {% for offer in offers %}
+            <li>
+                Товар: {{ offer.product.name }} - Цена: {{ offer.price }}
+            </li>
+        {% empty %}
+            <p>В этом магазине пока нет предложений.</p>
+        {% endfor %}
+    </ul>
+{% endblock %}

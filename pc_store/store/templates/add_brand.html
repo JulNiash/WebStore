@@ -1,0 +1,11 @@
+{% extends 'base.html' %}
+{% block content %}
+<!-- add_brand.html -->
+<h2>Добавить бренд</h2>
+<form method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit">Добавить</button>
+</form>
+
+{% endblock %}

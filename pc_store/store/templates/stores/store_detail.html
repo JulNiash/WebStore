@@ -1,0 +1,57 @@
+{% extends 'base.html' %}
+
+{% block content %}
+  <div class="container mx-auto p-6">
+    <div class="bg-white shadow-md rounded-lg p-6">
+      <h1 class="text-2xl font-bold mb-2">{{ store.name }}</h1>
+      <p class="text-gray-700"><strong>Владелец:</strong> {{ store.owner.username }}</p>
+      <p class="text-gray-700 mb-4"><strong>Описание:</strong> {{ store.description }}</p>
+    </div>
+
+    <div class="bg-white shadow-md rounded-lg p-6 mt-6">
+      <h2 class="text-xl font-semibold mb-4">Предложения магазина {{ store.name }}</h2>
+
+      {% if offers %}
+        <ul class="space-y-4">
+          {% for offer in offers %}
+            <li class="bg-gray-100 p-4 rounded-lg flex justify-between items-center">
+              <span class="text-gray-800">
+                {% if offer.motherboard %}
+                  Материнская плата: {{ offer.motherboard.title }} - <span class="font-semibold">{{ offer.price }} руб.</span>
+                {% elif offer.processor %}
+                  Процессор: {{ offer.processor.title }} - <span class="font-semibold">{{ offer.price }} руб.</span>
+                {% elif offer.graphic_card %}
+                  Видеокарта: {{ offer.graphic_card.title }} - <span class="font-semibold">{{ offer.price }} руб.</span>
+                {% elif offer.ram %}
+                  ОЗУ: {{ offer.ram.title }} - <span class="font-semibold">{{ offer.price }} руб.</span>
+                {% elif offer.storage %}
+                  Накопитель: {{ offer.storage.title }} - <span class="font-semibold">{{ offer.price }} руб.</span>
+                {% elif offer.power_supply %}
+                  Блок питания: {{ offer.power_supply.title }} - <span class="font-semibold">{{ offer.price }} руб.</span>
+                {% elif offer.case %}
+                  Корпус: {{ offer.case.title }} - <span class="font-semibold">{{ offer.price }} руб.</span>
+                {% else %}
+                  Неизвестный товар - <span class="font-semibold">{{ offer.price }} руб.</span>
+                {% endif %}
+              </span>
+
+              {% if user.is_authenticated and user == store.owner %}
+                <div class="space-x-2">
+                  <a href="{% url 'edit_offer' offer.id %}?next={{ request.path }}" class="px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600">Редактировать</a>
+                  <a href="{% url 'delete_offer' offer.id %}?next={{ request.path }}" class="px-4 py-2 bg-red-500 text-white rounded-lg hover:bg-red-600">Удалить</a>
+                </div>
+              {% endif %}
+
+            </li>
+          {% endfor %}
+        </ul>
+      {% else %}
+        <p class="text-gray-700">Нет предложений</p>
+      {% endif %}
+    </div>
+
+    <div class="mt-6">
+      <a href="{% url 'stores_list' %}" class="px-4 py-2 bg-gray-500 text-white rounded-lg hover:bg-gray-600">Назад к списку магазинов</a>
+    </div>
+  </div>
+{% endblock %}

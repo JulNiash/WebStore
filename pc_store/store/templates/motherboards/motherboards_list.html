@@ -1,0 +1,41 @@
+{% extends 'base.html' %}
+{% block content %}
+    <h1>Список материнских плат</h1>
+    <div style="display: flex; flex-wrap: wrap; gap: 20px;">
+       {% for motherboard in motherboards %}
+            <div style="border: 1px solid #ddd; padding: 15px; border-radius: 8px; width: 300px;">
+                <h2>
+                    <a href="{% url 'motherboard_detail' motherboard.id %}" style="text-decoration: none; color: #007bff;">{{ motherboard.title }}</a>
+                </h2>
+                <p>{{ motherboard.description }}</p>
+
+                <h3>Предложения:</h3>
+                    {% if motherboard.motherboard_offers %}
+                        <ul>
+                            {% for offer in motherboard.motherboard_offers.all %}
+                                <li>Цена: {{ offer.price }} руб. | Магазин: {{ offer.store.name }}</li>
+                                    {% if user == offer.store.owner or user.is_superuser %}
+                                        <a href="{% url 'edit_offer' offer.id %}">Редактировать</a>
+                                        <a href="{% url 'delete_offer' offer.id %}" style="color: red;">Удалить</a>
+                                    {% endif %}
+                                    <form action="{% url 'add_to_basket' offer.id %}" method="post">
+                                        {% csrf_token %}
+                                        <button type="submit">Добавить в корзину</button>
+                                    </form>
+                            {% endfor %}
+                        </ul>
+                    {% else %}
+                        <p>Нет предложений</p>
+                    {% endif %}
+
+                    {% if user.is_authenticated and user.seller_profile or user.is_superuser %}
+                    <a href="{% url 'create_offer' 'motherboard' motherboard.id %}" style="display: block; margin-top: 10px; padding: 5px 10px; background-color: #007bff; color: white; text-decoration: none; border-radius: 5px; text-align: center;">Добавить предложение</a>
+                {% endif %}
+            </div>
+        {% endfor %}
+    </div>
+
+    {% if user.is_staff %}
+        <a href="{% url 'create_motherboard' %}" style="display: inline-block; margin-top: 20px; padding: 10px 15px; background-color: #28a745; color: white; text-decoration: none; border-radius: 5px;">Создать новую материнскую плату</a>
+    {% endif %}
+{% endblock %}

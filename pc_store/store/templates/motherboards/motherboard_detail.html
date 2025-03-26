@@ -1,0 +1,25 @@
+{% extends 'base.html' %}
+{% block content %}
+
+    <div style="max-width: 600px; margin: 20px auto; padding: 20px; border: 1px solid #ddd; border-radius: 8px; background-color: #f9f9f9;">
+        <h1 style="text-align: center; color: #333;">MOTHERBOARD DETAIL</h1>
+        <p><strong>Name:</strong> {{ motherboard.title }}</p>
+        <p><strong>Brand:</strong> {{ motherboard.brand }}</p>
+        <p><strong>Chipset:</strong> {{ motherboard.chipset }}</p>
+        <p><strong>Socket:</strong> {{ motherboard.socket }}</p>
+        <p><strong>Memory:</strong> {{ motherboard.memory }}</p>
+        <p><strong>Description:</strong> {{ motherboard.description }}</p>
+
+        {% if user.is_staff %}
+            <div style="margin-top: 15px;">
+                <a href="{% url 'update_motherboard' motherboard.id %}" style="display: inline-block; padding: 8px 12px; background-color: #007bff; color: white; text-decoration: none; border-radius: 5px; margin-right: 10px;">Update</a>
+                <a href="{% url 'delete_motherboard' motherboard.id %}" style="display: inline-block; padding: 8px 12px; background-color: #dc3545; color: white; text-decoration: none; border-radius: 5px;">Delete</a>
+            </div>
+        {% endif %}
+
+        <div style="margin-top: 20px; text-align: center;">
+            <a href="{% url 'motherboards_list' %}" style="display: inline-block; padding: 10px 15px; background-color: #28a745; color: white; text-decoration: none; border-radius: 5px;">Back to Motherboards</a>
+        </div>
+    </div>
+
+{% endblock %}

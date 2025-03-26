@@ -1,0 +1,37 @@
+{% extends 'base.html' %}
+{% block content %}
+    <h1>Список блоков питания</h1>
+    <div style="display: flex; flex-wrap: wrap; gap: 20px;">
+       {% for power_supply in power_supplys %}
+            <div style="border: 1px solid #ddd; padding: 15px; border-radius: 8px; width: 300px;">
+                <h2>
+                    <a href="{% url 'power_supply_detail' power_supply.id %}" style="text-decoration: none; color: #007bff;">{{ power_supply.title }}</a>
+                </h2>
+                <p>{{ power_supply.description }}</p>
+
+                <h3>Предложения:</h3>
+                    {% if power_supply.power_supply_offers %}
+                        <ul>
+                            {% for offer in power_supply.power_supply_offers.all %}
+                                <li>Цена: {{ offer.price }} руб. | Магазин: {{ offer.store.name }}</li>
+                                {% if user.is_authenticated and offer.store and user == offer.store.owner %}
+                                    <a href="{% url 'edit_offer' offer.id %}">Редактировать</a>
+                                    <a href="{% url 'delete_offer' offer.id %}" style="color: red;">Удалить</a>
+                                {% endif %}
+                            {% endfor %}
+                        </ul>
+                    {% else %}
+                        <p>Нет предложений</p>
+                    {% endif %}
+
+                    {% if user.is_authenticated and user.seller_profile or user.is_superuser %}
+                    <a href="{% url 'create_offer' 'power_supply' power_supply.id %}" style="display: block; margin-top: 10px; padding: 5px 10px; background-color: #007bff; color: white; text-decoration: none; border-radius: 5px; text-align: center;">Добавить предложение</a>
+                {% endif %}
+            </div>
+        {% endfor %}
+    </div>
+
+    {% if user.is_staff %}
+        <a href="{% url 'create_power_supply' %}" style="display: inline-block; margin-top: 20px; padding: 10px 15px; background-color: #28a745; color: white; text-decoration: none; border-radius: 5px;">Создать новый блок питания</a>
+    {% endif %}
+{% endblock %}

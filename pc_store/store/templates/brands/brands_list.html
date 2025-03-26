@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <h2 style="text-align: center; margin-bottom: 20px;">Список брендов</h2>
+    <div style="display: flex; flex-wrap: wrap; gap: 15px; justify-content: center;">
+        {% for brand in brands %}
+            <div style="border: 1px solid #ddd; padding: 15px; border-radius: 8px; width: 250px; text-align: center; background-color: #f9f9f9;">
+                <h3>{{ brand.name }}</h3>
+                {% if user.is_superuser %}
+                    <div style="margin-top: 10px;">
+                        <a href="{% url 'update_brand' brand.id %}" style="padding: 5px 10px; background-color: #007bff; color: white; text-decoration: none; border-radius: 5px; margin-right: 5px;">Редактировать</a>
+                        <a href="{% url 'delete_brand' brand.id %}" style="padding: 5px 10px; background-color: #dc3545; color: white; text-decoration: none; border-radius: 5px;">Удалить</a>
+                    </div>
+                {% endif %}
+            </div>
+        {% endfor %}
+    </div>
+
+    {% if user.is_superuser %}
+        <div style="text-align: center; margin-top: 20px;">
+            <a href="{% url 'add_brand' %}" style="padding: 10px 15px; background-color: #28a745; color: white; text-decoration: none; border-radius: 5px;">Добавить бренд</a>
+        </div>
+    {% endif %}
+{% endblock %}
